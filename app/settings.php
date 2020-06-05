@@ -10,10 +10,20 @@ return function (ContainerBuilder $containerBuilder) {
         'settings' => [
             'displayErrorDetails' => true, // Should be set to false in production
             'logger' => [
-                'name' => 'slim-app',
-                'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
+                'name'  => 'slim-app',
+                'path'  => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
                 'level' => Logger::DEBUG,
             ],
-        ],
+            'db' => [
+                'driver'    => 'mysql',
+                'host'      => 'docker-mysql',
+                'port'      => '3306',
+                'database'  => 'testapp',
+                'username'  => 'root',
+                'password'  => 'helloworld',
+                'charset'   => 'utf8',
+                'collation' => 'utf8_unicode_ci',
+            ],
+        ]
     ]);
 };

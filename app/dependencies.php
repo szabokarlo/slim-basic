@@ -24,5 +24,28 @@ return function (ContainerBuilder $containerBuilder) {
 
             return $logger;
         },
+        'db_connection' => function (ContainerInterface $c) {
+            $settings = $c->get('settings');
+
+            $dbSettings = $settings['db'];
+            $driver     = $dbSettings['driver'];
+            $host       = $dbSettings['host'];
+            $port       = $dbSettings['port'];
+            $database   = $dbSettings['database'];
+            $username   = $dbSettings['username'];
+            $password   = $dbSettings['password'];
+            $charset    = $dbSettings['charset'];
+            $collation  = $dbSettings['collation'];
+
+            return new PDO(
+                "$driver:host=$host;dbname=$database;port:$port;",
+                $username,
+                $password,
+                [
+                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES $charset COLLATE $collation"
+                ]
+            );
+        },
     ]);
 };

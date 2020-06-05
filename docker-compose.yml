@@ -16,8 +16,11 @@ services:
         volumes:
             - .:/var/www
             - logs:/var/www/logs
-    mysql-development:
+        links:
+            - docker-mysql
+    docker-mysql:
         image: mysql
+        container_name: docker-mysql
         environment:
             MYSQL_ROOT_PASSWORD: helloworld
         ports:
