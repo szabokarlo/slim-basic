@@ -16,3 +16,16 @@ services:
         volumes:
             - .:/var/www
             - logs:/var/www/logs
+    mysql-development:
+        image: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: helloworld
+        ports:
+            - "3308:3306"
+        volumes:
+            - ./database:/tmp/database
+        command: mysqld --init-file="/tmp/database/init.sql"
+    admin:
+        image: adminer
+        ports:
+            - "8081:8080"
